@@ -2,6 +2,7 @@ const { stdin, stdout } = process;
 const alphabets = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`.split(
   ""
 );
+const charactersQue = [];
 
 const collectAlphabetInfo = function() {
   let alphabet = {};
@@ -12,9 +13,12 @@ const collectAlphabetInfo = function() {
   return alphabet;
 };
 
+const storeNextCharToPrint = function() {
+  charactersQue.push(collectAlphabetInfo());
+};
+
 const main = function() {
-  stdin.setRawMode("true");
-  collectAlphabetInfo();
+  setInterval(storeNextCharToPrint, 1000);
 };
 
 main();
