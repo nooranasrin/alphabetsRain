@@ -6,7 +6,7 @@ let alphabets = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`.split(
   ""
 );
 const charactersQue = [];
-const gameInfo = { time: new Date().valueOf() };
+const gameInfo = { time: new Date().valueOf(), correctAns: 0, wrongAns: 0 };
 
 const collectAlphabetInfo = function() {
   let alphabet = {};
@@ -38,6 +38,10 @@ const fallChars = function() {
   stdout.write(
     `Time : ${Math.floor((new Date().valueOf() - gameInfo.time) / 1000)}s`
   );
+  stdout.cursorTo(85, 90);
+  stdout.write(`Wrong Answers : ${gameInfo.wrongAns}`);
+  stdout.cursorTo(60, 90);
+  stdout.write(`Correct Answers : ${gameInfo.correctAns}`);
   stdout.cursorTo(0, 35);
 };
 
