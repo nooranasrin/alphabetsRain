@@ -49,6 +49,14 @@ const main = function() {
   alphabets = alphabets.map(alphabet => `${alphabet}\n`);
   setInterval(fallChars, 500);
   setInterval(storeNextCharToPrint, 1000);
+  stdin.on("data", userInput => {
+    charactersQue.forEach(alphabet => {
+      if (alphabet.char == userInput) {
+        charactersQue.splice(charactersQue.indexOf(alphabet), 1);
+        gameInfo.correctAns += 1;
+      }
+    });
+  });
 };
 
 main();
