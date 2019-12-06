@@ -1,5 +1,7 @@
 const { stdin, stdout } = process;
 const chalk = require("chalk");
+stdin.setEncoding("utf8");
+const rl = require("readline-sync");
 const { red, green, blue, yellow, magenta, white, greenBright } = chalk;
 const colors = [red, green, blue, yellow, magenta, white, greenBright];
 let characters = require("./characters.json");
@@ -37,6 +39,7 @@ const displayAlphabets = function() {
 
 const quitGame = function() {
   stdout.cursorTo(0, 1);
+  console.clear();
   stdout.write(chalk.green(`Correct Alphabets:`) + ` ${gameInfo.correctAns}\n`);
   stdout.write(chalk.red(`Wrong Alphabets:`) + ` ${gameInfo.wrongAns}\n`);
   stdout.write(
@@ -80,12 +83,20 @@ const selectMode = function(option) {
   }
 };
 
+const printInstructions = function() {
+  const instructions = `Press ? to quit the game\nPress Enter to Start the game\n`;
+  const key = rl.question(instructions);
+  console.clear();
+};
+
 const main = function(argv) {
+  printInstructions();
+  stdin.resume();
   selectMode(argv);
   setInterval(fallChars, 500);
   setInterval(storeNextCharToPrint, 1000);
   stdin.on("data", userInput => {
-    if (userInput == "?") {
+    if (userInput.trim() == "?") {
       quitGame();
     }
     charactersQue.forEach(alphabet => {
