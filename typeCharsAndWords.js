@@ -6,7 +6,12 @@ let alphabets = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`.split(
   ""
 );
 const charactersQue = [];
-const gameInfo = { time: new Date().valueOf(), correctAns: 0, wrongAns: 0 };
+const gameInfo = {
+  time: new Date().valueOf(),
+  correctAns: 0,
+  totalChar: 0,
+  wrongAns: 0
+};
 
 const collectAlphabetInfo = function() {
   let alphabet = {};
@@ -56,6 +61,8 @@ const main = function() {
         gameInfo.correctAns += 1;
       }
     });
+    gameInfo.totalChar += 1;
+    gameInfo.wrongAns = gameInfo.totalChar - gameInfo.correctAns;
   });
 };
 
