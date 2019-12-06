@@ -74,10 +74,13 @@ const selectMode = function(option) {
   if (option == "--c") {
     stdin.setRawMode("true");
   }
+  if (option == "--w") {
+    characters = require("./words.json");
+    characters = characters.map(alphabet => `${alphabet}\n`);
+  }
 };
 
 const main = function(argv) {
-  // characters = characters.map(alphabet => `${alphabet}\n`);
   selectMode(argv);
   setInterval(fallChars, 500);
   setInterval(storeNextCharToPrint, 1000);
