@@ -37,8 +37,30 @@ const displayAlphabets = function() {
   });
 };
 
+const quitGame = function() {
+  stdout.cursorTo(0, 1);
+  stdout.write(chalk.green(`Correct Alphabets:`) + ` ${gameInfo.correctAns}\n`);
+  stdout.write(chalk.red(`Wrong Alphabets:`) + ` ${gameInfo.wrongAns}\n`);
+  stdout.write(
+    `Total Time: ${Math.floor(
+      (new Date().valueOf() - gameInfo.time) / 1000
+    )}s\n`
+  );
+  process.exit(0);
+};
+
+const isGameOver = function(rows) {
+  charactersQue.forEach(alphabet => {
+    if (rows == alphabet.y || gameInfo.wrongAns >= 15) {
+      quitGame();
+    }
+  });
+};
+
 const fallChars = function() {
+  let rows = stdout.rows;
   displayAlphabets();
+  isGameOver(rows);
   stdout.cursorTo(110, 90);
   stdout.write(
     `Time : ${Math.floor((new Date().valueOf() - gameInfo.time) / 1000)}s`
@@ -47,7 +69,7 @@ const fallChars = function() {
   stdout.write(`Wrong Answers : ${gameInfo.wrongAns}`);
   stdout.cursorTo(60, 90);
   stdout.write(`Correct Answers : ${gameInfo.correctAns}`);
-  stdout.cursorTo(0, 35);
+  stdout.cursorTo(0, 90);
 };
 
 const main = function() {
@@ -55,6 +77,9 @@ const main = function() {
   setInterval(fallChars, 500);
   setInterval(storeNextCharToPrint, 1000);
   stdin.on("data", userInput => {
+    if (userInput == "?\n") {
+      quitGame();
+    }
     charactersQue.forEach(alphabet => {
       if (alphabet.char == userInput) {
         charactersQue.splice(charactersQue.indexOf(alphabet), 1);
