@@ -1,4 +1,7 @@
 const { stdin, stdout } = process;
+const chalk = require("chalk");
+const { red, green, blue, yellow, magenta, white, greenBright } = chalk;
+const colors = [red, green, blue, yellow, magenta, white, greenBright];
 let alphabets = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`.split(
   ""
 );
@@ -8,6 +11,7 @@ const collectAlphabetInfo = function() {
   let alphabet = {};
   let columns = stdout.columns - 5;
   alphabet.char = alphabets[Math.floor(Math.random() * alphabets.length)];
+  alphabet.color = colors[Math.floor(Math.random() * 7)];
   alphabet.x = Math.floor(Math.random() * columns);
   alphabet.y = 2;
   return alphabet;
@@ -22,7 +26,7 @@ const displayAlphabets = function() {
   stdout.clearScreenDown();
   charactersQue.forEach(alphabet => {
     stdout.cursorTo(alphabet.x, alphabet.y);
-    console.log(alphabet.char);
+    console.log(alphabet.color(alphabet.char));
     alphabet.y += 1;
   });
 };
