@@ -2,9 +2,7 @@ const { stdin, stdout } = process;
 const chalk = require("chalk");
 const { red, green, blue, yellow, magenta, white, greenBright } = chalk;
 const colors = [red, green, blue, yellow, magenta, white, greenBright];
-let alphabets = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`.split(
-  ""
-);
+let characters = require("./characters.json");
 const charactersQue = [];
 const gameInfo = {
   time: new Date().valueOf(),
@@ -14,13 +12,13 @@ const gameInfo = {
 };
 
 const collectAlphabetInfo = function() {
-  let alphabet = {};
+  let character = {};
   let columns = stdout.columns - 5;
-  alphabet.char = alphabets[Math.floor(Math.random() * alphabets.length)];
-  alphabet.color = colors[Math.floor(Math.random() * 7)];
-  alphabet.x = Math.floor(Math.random() * columns);
-  alphabet.y = 2;
-  return alphabet;
+  character.char = characters[Math.floor(Math.random() * characters.length)];
+  character.color = colors[Math.floor(Math.random() * 7)];
+  character.x = Math.floor(Math.random() * columns);
+  character.y = 2;
+  return character;
 };
 
 const storeNextCharToPrint = function() {
@@ -72,12 +70,19 @@ const fallChars = function() {
   stdout.cursorTo(0, 90);
 };
 
-const main = function() {
-  alphabets = alphabets.map(alphabet => `${alphabet}\n`);
+const selectMode = function(option) {
+  if (option == "--c") {
+    stdin.setRawMode("true");
+  }
+};
+
+const main = function(argv) {
+  // characters = characters.map(alphabet => `${alphabet}\n`);
+  selectMode(argv);
   setInterval(fallChars, 500);
   setInterval(storeNextCharToPrint, 1000);
   stdin.on("data", userInput => {
-    if (userInput == "?\n") {
+    if (userInput == "?") {
       quitGame();
     }
     charactersQue.forEach(alphabet => {
@@ -91,4 +96,4 @@ const main = function() {
   });
 };
 
-main();
+main(process.argv[2]);
