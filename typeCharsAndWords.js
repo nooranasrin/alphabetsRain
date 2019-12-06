@@ -6,6 +6,7 @@ let alphabets = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`.split(
   ""
 );
 const charactersQue = [];
+const gameInfo = { time: new Date().valueOf() };
 
 const collectAlphabetInfo = function() {
   let alphabet = {};
@@ -33,6 +34,10 @@ const displayAlphabets = function() {
 
 const fallChars = function() {
   displayAlphabets();
+  stdout.cursorTo(110, 90);
+  stdout.write(
+    `Time : ${Math.floor((new Date().valueOf() - gameInfo.time) / 1000)}s`
+  );
   stdout.cursorTo(0, 35);
 };
 
