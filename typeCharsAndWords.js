@@ -84,9 +84,25 @@ const selectMode = function(option) {
 };
 
 const printInstructions = function() {
-  const instructions = `Press ? to quit the game\nPress Enter to Start the game\n`;
+  const instructions = `Press ? to quit the game\nPress Enter: to Start the game\n`;
   const key = rl.question(instructions);
   console.clear();
+};
+
+const isMatch = function(userInput, alphabet) {
+  if (alphabet.char == userInput) {
+    charactersQue.splice(charactersQue.indexOf(alphabet), 1);
+    gameInfo.correctAns += 1;
+  }
+};
+
+const analyseUserInput = function(userInput) {
+  if (userInput.trim() == "?") {
+    quitGame();
+  }
+  charactersQue.forEach(isMatch.bind(null, userInput));
+  gameInfo.totalChar += 1;
+  gameInfo.wrongAns = gameInfo.totalChar - gameInfo.correctAns;
 };
 
 const main = function(argv) {
@@ -95,19 +111,7 @@ const main = function(argv) {
   selectMode(argv);
   setInterval(fallChars, 500);
   setInterval(storeNextCharToPrint, 1000);
-  stdin.on("data", userInput => {
-    if (userInput.trim() == "?") {
-      quitGame();
-    }
-    charactersQue.forEach(alphabet => {
-      if (alphabet.char == userInput) {
-        charactersQue.splice(charactersQue.indexOf(alphabet), 1);
-        gameInfo.correctAns += 1;
-      }
-    });
-    gameInfo.totalChar += 1;
-    gameInfo.wrongAns = gameInfo.totalChar - gameInfo.correctAns;
-  });
+  stdin.on("data", analyseUserInput);
 };
 
 main(process.argv[2]);
